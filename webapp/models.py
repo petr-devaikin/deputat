@@ -1,6 +1,5 @@
 from peewee import *
-
-database = SqliteDatabase(None)
+from webapp.db_engine import database
 
 class Convocation(Model):
     number = IntegerField()
