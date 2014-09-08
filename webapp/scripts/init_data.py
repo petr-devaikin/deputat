@@ -84,8 +84,10 @@ def load_convocation(file_path, convocation):
 
 
 def load_all_convocations(data_folder):
-    for c in Convocation.select().order_by(Convocation.start_year):
-        print c.start_year
+    to_load = []
+    for c in Convocation.select():
+        to_load.append(c)
+    for c in to_load:
         file_path = os.path.join(data_folder, "%d.txt" % (c.start_year))
         load_convocation(file_path, c)
 

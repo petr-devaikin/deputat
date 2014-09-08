@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from flask import Flask
+from flask import Flask, render_template
 from webapp.db_engine import database, init_db
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
+app.config.from_object('webapp.default_settings')
 
 @app.before_request
 def before_request():
@@ -16,8 +16,8 @@ def after_request(response):
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     init_db()
