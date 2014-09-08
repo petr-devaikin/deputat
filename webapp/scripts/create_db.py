@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from webapp.logger import get_logger
 from webapp.models import *
 

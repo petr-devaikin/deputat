@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from peewee import *
 from webapp.db_engine import database
 

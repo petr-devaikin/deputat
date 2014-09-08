@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from webapp.models import *
 from webapp.logger import get_logger
 import os
+
 
 def create_convocations():
     Convocation.create(number=1, start_year=1993, stop_year=1996)
@@ -14,58 +16,58 @@ def create_convocations():
 
 def convert_party_name(name):
     lower_name = name.lower()
-    if lower_name == "фракция «единая россия»" or lower_name == "ер" or lower_name == "единая россия"
+    if lower_name == "фракция «единая россия»" or lower_name == "ер" or lower_name == "единая россия":
         return "Единая Россия"
-    elif lower_name == "фракция «кпрф»" or lower_name == "фракция кпрф" or lower_name == "кпрф"
+    elif lower_name == "фракция «кпрф»" or lower_name == "фракция кпрф" or lower_name == "кпрф":
         return "КПРФ"
-    elif lower_name == "фракция «справедливая россия»" or lower_name == "ср"
+    elif lower_name == "фракция «справедливая россия»" or lower_name == "ср":
         return "Справедливая Россия"
-    elif lower_name == "фракция «лдпр»" or lower_name == "фракция лдпр" or lower_name == "лдпр"
+    elif lower_name == "фракция «лдпр»" or lower_name == "фракция лдпр" or lower_name == "лдпр":
         return "ЛДПР"
-    elif lower_name == "ябл"
+    elif lower_name == "ябл":
         return "Яблоко"
-    elif lower_name == "апр"
+    elif lower_name == "апр":
         return "Аграрная партия России"
-    elif lower_name == "агр"
+    elif lower_name == "агр":
         return "Аграрная депутатская группа"
-    elif lower_name == "вр"
+    elif lower_name == "вр":
         return "Выбор России"
-    elif lower_name == "дпр"
+    elif lower_name == "дпр":
         return "Демократическая партия России"
-    elif lower_name == "жр"
+    elif lower_name == "жр":
         return "Женщины России"
-    elif lower_name == "н-96"
+    elif lower_name == "н-96":
         return "Новая региональная политика — Дума-96"
-    elif lower_name == "нез."
+    elif lower_name == "нез.":
         return "Независимые"
-    elif lower_name == "прес"
+    elif lower_name == "прес":
         return "Партия российского единства и согласия"
-    elif lower_name == "росс"
+    elif lower_name == "росс":
         return "Россия"
-    elif lower_name == "стаб"
+    elif lower_name == "стаб":
         return "Стабильность"
-    elif lower_name == "ндр"
+    elif lower_name == "ндр":
         return "Наш дом — Россия"
-    elif lower_name == "нрдв"
+    elif lower_name == "нрдв":
         return "Народовластие"
-    elif lower_name == "ррег"
+    elif lower_name == "ррег":
         return "Российские регионы"
-    elif lower_name == "апг"
+    elif lower_name == "апг":
         return "Агропромышленная депутатская группа"
-    elif lower_name == "е-ер"
+    elif lower_name == "е-ер":
         return "Единство — Единая Россия"
-    elif lower_name == "ндеп"
+    elif lower_name == "ндеп":
         return "Народный депутат"
-    elif lower_name == "о-ер"
+    elif lower_name == "о-ер":
         return "Отечество — Единая Россия"
-    elif lower_name == "ррос"
+    elif lower_name == "ррос":
         return "Регионы России"
-    elif lower_name == "рнвс"
+    elif lower_name == "рнвс":
         return "Родина"
-    elif lower_name == "ср-р"
+    elif lower_name == "ср-р":
         return "Справедливая Россия — Родина"
-    else
-        return name;
+    else:
+        return name
 
 
 def load_convocation(file_path, convocation):
@@ -78,8 +80,16 @@ def load_convocation(file_path, convocation):
             fraction = Fraction.get_or_create(convocation=convocation, party=party)
             Work.create(deputy=deputy, fraction=fraction)
 
+    get_logger().debug('Data from %s loaded' % file_path)
+
 
 def load_all_convocations(data_folder):
-    for c in Convocation.query.select():
+    for c in Convocation.select().order_by(Convocation.start_year):
+        print c.start_year
         file_path = os.path.join(data_folder, "%d.txt" % (c.start_year))
         load_convocation(file_path, c)
+
+
+def init_data(data_folder):
+    create_convocations()
+    load_all_convocations(data_folder)
