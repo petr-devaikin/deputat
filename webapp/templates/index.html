@@ -7,17 +7,16 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
     <body>
-        {% for p in parties %}
-            {{ p.name }}<br />
-            {% for f in p.fractions %}
-                {{ f.convocation.id }} - {{ f.works.count() }},
-            {% endfor %}<br />
-        {% endfor %}
+        <div id="chart"></div>
+
         <script src="{{ url_for('static', filename='js/raphael/raphael-min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/raphael/raphael-gradient.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
         <script>
-            
+            var convocations = {{ convocations|safe }};
+            var parties = {{ parties|safe }};
+            var fractions = {{ fractions|safe }};
+            var deputies = {{ deputies|safe }};
         </script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
