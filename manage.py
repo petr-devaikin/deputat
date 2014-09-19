@@ -4,7 +4,7 @@ from webapp.app import app
 from webapp.db_engine import init_db
 from webapp.logger import get_logger
 from webapp.scripts.create_db import create_db
-from webapp.scripts.init_data import init_data
+from webapp.scripts.init_data import init_data, set_order
 
 init_db()
 manager = Manager(app)
@@ -28,6 +28,13 @@ def init_db():
     """
     create_db()
     init_data('./data/')
+
+@manager.command
+def sort():
+    """
+    Sort fractions and deputies
+    """
+    set_order()
 
 if __name__ == "__main__":
     manager.run()
